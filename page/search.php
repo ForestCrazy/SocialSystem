@@ -23,7 +23,7 @@ if (!isset($_GET["search_name"])) {
                         if (mysqli_num_rows($res_check_friend) == 1) {
                             if ($fetch_check_friend["AreFriend"] == "True") {
                             ?>
-                                <div class="btn btn-success">เพื่อน</div>
+                                <div class="btn btn-primary">เพื่อน</div>
                             <?php
                             } else {
                                 if ($fetch_check_friend["user_id_1"] == $_SESSION["user_id"]) {
@@ -32,12 +32,10 @@ if (!isset($_GET["search_name"])) {
                                 <?php
                                 } else {
                                 ?>
-                                    <div class="btn btn-secondary">ตอบรับคำขอเป็นเพื่อน</div>
+                                    <div class="btn btn-secondary" onclick='window.location = "?page=friend"'>ตอบรับคำขอเป็นเพื่อน</div>
                                 <?php
                                 }
                             }
-                        } else {
-
                         }
                     }
                     ?>

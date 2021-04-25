@@ -104,19 +104,6 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
             ?>
         </div>
     </nav>
-    <?php
-    if (!isset($_GET["page"])) {
-        $_GET["page"] = "home";
-    }
-    if (!$_GET) {
-        $_GET["page"] = "home";
-    }
-    if(!$_GET["page"]) {
-        $_GET["page"] = "home";
-    }
-
-    if ($_GET["page"] == "home" OR $_GET["page"] == "search") {
-    ?>
     <br>
     <div class="col-md-3 row p-1 m-0">
         <input class="form-control col-9 pl-1" style="width: unset!important" type="search" id="search_name" name="search_name" placeholder="ค้นหาผู้ใช้" aria-label="Search">
@@ -126,6 +113,20 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
     }
     ?>
     <div class="container">
+        <?php
+        if (!isset($_GET["page"])) {
+            $_GET["page"] = "home";
+        }
+        if (!$_GET) {
+            $_GET["page"] = "home";
+        }
+        if(!$_GET["page"]) {
+            $_GET["page"] = "home";
+        }
+
+        if ($_GET["page"] == "home" OR $_GET["page"] == "search") {
+        ?>
+        
         <?php
 
         if ($_GET["page"] == "home") {

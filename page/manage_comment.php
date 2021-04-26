@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"]) OR !isset($_SESSION["level"])) {
+if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"])) {
     ?>
     <script>
         window.location = "?page=login";
@@ -38,7 +38,7 @@ if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"]) OR !isset($_SE
     </form>
     <?php
     } else {
-
+        echo '<script>window.location = window.location.back();</script>';
     }
 }
 ?>

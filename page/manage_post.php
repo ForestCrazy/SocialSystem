@@ -6,21 +6,24 @@ if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"])) {
     </script>
     <?php
 } else {
-    if (isset($_POST['submit_post'])) {
+    $sql_feed_post = 'SELECT * FROM post WHERE post_id = "' . $_GET['post_id'] . '"';
+    $res_feed_post = mysqli_query($connect, $sql_feed_post);
+    $fetch_feed_post = mysqli_fetch_assoc($res_feed_post);
+    if (isset($_POST['submit_edit_post'])) {
         if ($_POST['post_msg'] != '' OR $_FILES['up']['size'] != 0) {
-            $file_name = '';
+            $file_name = $fetch_feed_post['post_img'];
             if ($_FILES['up']['size'] != 0) {
                 if (move_uploaded_file($_FILES['up']['tmp_name'], './asset/img_post/' . time() . $_FILES['up']['name'])) {
                     $file_name = time() . $_FILES['up']['name'];
                 }
             }
             
-            $sql_post = 'INSERT INTO post (post_message, post_img, user_id) VALUES ("' . $_POST['post_msg'] . '", "' . $file_name . '", "' . $_SESSION['user_id'] . '")';
+            $sql_post = 'UPDATE post SET post_message = "' . $_POST['post_msg'] . '", post_img = "' . $file_name . '" WHERE post_id = "' . $fetch_feed_post['post_id'] . '"';
             $res_post = mysqli_query($connect, $sql_post);
             if ($res_post) {
                 ?>
                 <div class="alert alert-success" role="alert">
-                    โพสต์สำเร็จ
+                    แก้ไขโพสต์สำเร็จ
                 </div>
                 <script>
                     setTimeout(() => {
@@ -38,15 +41,15 @@ if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"])) {
         }
     }
 ?>
-    <h3 style="text-align: center;">สร้างโพสต์</h3>
+    <h3 style="text-align: center;">แก้ไขโพสต์</h3>
     <form action="" method="POST" enctype="multipart/form-data">
         <div class="form-group">
             <input type="file" name="up" class="form-control">
         </div>
         <div class="form-group">
-            <textarea class="form-control" rows="5" name="post_msg"></textarea>
+            <textarea class="form-control" rows="5" name="post_msg"><?= $fetch_feed_post['post_message'] ?></textarea>
         </div>
-        <button type="submit" class="btn btn-success col-12" name="submit_post">โพสต์</button>
+        <button type="submit" class="btn btn-success col-12" name="submit_edit_post">แก้ไขโพสต์</button>
     </form>
 <?php
 }

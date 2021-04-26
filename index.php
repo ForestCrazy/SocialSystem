@@ -1,6 +1,6 @@
 <?php
 include './system/connect.php';
-if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESSION["level"])) AND (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"]) OR !isset($_SESSION["level"]))) {
+if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESSION["level"])) AND (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"]))) {
     ?>
     <script>
         window.location = "?page=login"
@@ -104,12 +104,16 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
             ?>
         </div>
     </nav>
-    <br>
-    <div class="col-md-3 row p-1 m-0">
-        <input class="form-control col-9 pl-1" style="width: unset!important" type="search" id="search_name" name="search_name" placeholder="ค้นหาผู้ใช้" aria-label="Search">
-        <div class="btn btn-outline-success my-2 my-sm-0 col-3" onclick="window.location = '?page=search&search_name=' + $('#search_name').val()">ค้นหา</div>&emsp;
-    </div>
     <?php
+    if (isset($_GET['page'])) {
+        if ($_GET["page"] == "home" OR $_GET["page"] == "search") {
+        ?>
+        <div class="col-md-3 row p-1 m-0">
+            <input class="form-control col-9 pl-1" style="width: unset!important" type="search" id="search_name" name="search_name" placeholder="ค้นหาผู้ใช้" aria-label="Search">
+            <div class="btn btn-outline-success my-2 my-sm-0 col-3" onclick="window.location = '?page=search&search_name=' + $('#search_name').val()">ค้นหา</div>&emsp;
+        </div>
+        <?php
+        }
     }
     ?>
     <div class="container">
@@ -123,12 +127,7 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
         if(!$_GET["page"]) {
             $_GET["page"] = "home";
         }
-
-        if ($_GET["page"] == "home" OR $_GET["page"] == "search") {
-        ?>
         
-        <?php
-
         if ($_GET["page"] == "home") {
             include './page/home.php';
         } elseif ($_GET["page"] == "edit_info") {
@@ -169,3 +168,23 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
     </div>
 </body>
 </html>
+<?php
+if (isset($_POST['action'])) {
+    if ($_POST['action'] == 'deletefriend') {
+        $sql_delete_friend = 'DELETE FROM friendrelation WHERE (user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '") OR (user_id_2 = "' . $_POST['user_id'] . '" AND user_id_1 = "' . $_SESSION['user_id'] . '")';
+        $res_delete_friend = mysqli_query($connect, $sql_delete_friend);
+    } elseif ($_POST['action'] == 'acceptfriend') {
+        $sql_accept_friend = 'UPDATE friendrelation SET AreFriend = "True" WHERE user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '"';
+        $res_accept_friend = mysqli_query($connect, $sql_accept_friend);
+    } elseif ($_POST['action'] == 'cancelpending') {
+        $sql_cancel_pending_friend = 'DELETE FROM friendrelation WHERE user_id_1 = "' . $_SESSION['user_id'] . '" AND user_id_2 = "' . $_POST['user_id'] . '"';
+        $res_cancel_pending_friend = mysqli_query($connect, $sql_cancel_pending_friend);
+    } elseif ($_POST['action'] == 'addfriend') {
+        $sql_check_friend = 'SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" AND user_id_2 = "' . $_POST['user_id'] . '") OR (user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '")';
+        $res_check_friend = mysqli_query($connect, $sql_check_friend);
+        if (mysqli_num_rows($res_check_friend) == 0) {
+            $sql_add_friend = 'INSERT INTO friendrelation (AreFriend, user_id_1, user_id_2) VALUES ("False", "' . $_SESSION['user_id'] . '", "' . $_POST['user_id'] . '")';
+            $res_add_friend = mysqli_query($connect, $sql_add_friend);
+        }
+    }
+}

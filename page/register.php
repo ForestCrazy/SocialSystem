@@ -22,7 +22,7 @@ if(isset($_SESSION["user_id"]) OR isset($_SESSION["username"])) {
                     $file_name = time() . $_FILES['up']['name'];
                 }
             }
-            $sql_insert_user = 'INSERT INTO account (`FirstName`, `LastName`, `username`, `password`, `email`, `birthday`) VALUES ("' . $_POST["FirstName"] . '", "' . $_POST["LastName"] . '", "' . $_POST["username"] . '", "' . $_POST["password"] . '", "' . $_POST["email"] . '", "' . $_POST["birthday"] . '")';
+            $sql_insert_user = 'INSERT INTO account (`FirstName`, `LastName`, `username`, `password`, `email`, `birthday`, `img_profile`) VALUES ("' . $_POST["FirstName"] . '", "' . $_POST["LastName"] . '", "' . $_POST["username"] . '", "' . $_POST["password"] . '", "' . $_POST["email"] . '", "' . $_POST["birthday"] . '", "' . $file_name . '")';
             $res_insert_user = mysqli_query($connect, $sql_insert_user);
             if ($res_insert_user) {
             ?>

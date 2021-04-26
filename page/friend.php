@@ -1,5 +1,5 @@
 <?php
-if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"]) OR !isset($_SESSION["level"])) {
+if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"])) {
     ?>
     <script>
         window.location = "?page=home";
@@ -74,7 +74,7 @@ if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"]) OR !isset($_SE
                 <div class="col-4">
                     <div class="float-right">
                         <form action='' method='POST'>
-                            <button class='btn btn-warning' type='submit' name='action' value='acceptfriend'>ยกเลิก</button>
+                            <button class='btn btn-warning' type='submit' name='action' value='cancelpending'>ยกเลิก</button>
                             <input type='hidden' name='user_id' value='<?= $fetch_user['user_id'] ?>'>
                         </form>
                     </div>
@@ -109,7 +109,7 @@ if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"]) OR !isset($_SE
                 <div class="col-4">
                     <div class="float-right">
                         <form action='' method='POST'>
-                            <button class='btn btn-success' type='submit' name='action' value='canclepending'>รับเพื่อน</button>
+                            <button class='btn btn-success' type='submit' name='action' value='acceptfriend'>รับเพื่อน</button>
                             <input type='hidden' name='user_id' value='<?= $fetch_user['user_id'] ?>'>
                         </form>
                     </div>

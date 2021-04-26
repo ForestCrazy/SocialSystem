@@ -173,12 +173,33 @@ if (isset($_POST['action'])) {
     if ($_POST['action'] == 'deletefriend') {
         $sql_delete_friend = 'DELETE FROM friendrelation WHERE (user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '") OR (user_id_2 = "' . $_POST['user_id'] . '" AND user_id_1 = "' . $_SESSION['user_id'] . '")';
         $res_delete_friend = mysqli_query($connect, $sql_delete_friend);
+        ?>
+        <script>
+        setTimeout(() => {
+            window.location = window.location;
+        }, 1000);
+        </script>
+        <?php
     } elseif ($_POST['action'] == 'acceptfriend') {
         $sql_accept_friend = 'UPDATE friendrelation SET AreFriend = "True" WHERE user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '"';
         $res_accept_friend = mysqli_query($connect, $sql_accept_friend);
+        ?>
+        <script>
+        setTimeout(() => {
+            window.location = window.location;
+        }, 1000);
+        </script>
+        <?php
     } elseif ($_POST['action'] == 'cancelpending') {
         $sql_cancel_pending_friend = 'DELETE FROM friendrelation WHERE user_id_1 = "' . $_SESSION['user_id'] . '" AND user_id_2 = "' . $_POST['user_id'] . '"';
         $res_cancel_pending_friend = mysqli_query($connect, $sql_cancel_pending_friend);
+        ?>
+        <script>
+        setTimeout(() => {
+            window.location = window.location;
+        }, 1000);
+        </script>
+        <?php
     } elseif ($_POST['action'] == 'addfriend') {
         $sql_check_friend = 'SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" AND user_id_2 = "' . $_POST['user_id'] . '") OR (user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '")';
         $res_check_friend = mysqli_query($connect, $sql_check_friend);
@@ -186,5 +207,12 @@ if (isset($_POST['action'])) {
             $sql_add_friend = 'INSERT INTO friendrelation (AreFriend, user_id_1, user_id_2) VALUES ("False", "' . $_SESSION['user_id'] . '", "' . $_POST['user_id'] . '")';
             $res_add_friend = mysqli_query($connect, $sql_add_friend);
         }
+        ?>
+        <script>
+        setTimeout(() => {
+            window.location = window.location;
+        }, 1000);
+        </script>
+        <?php
     }
 }

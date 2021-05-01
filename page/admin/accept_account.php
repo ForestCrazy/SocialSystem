@@ -10,6 +10,8 @@ if (UserInfo($_SESSION['user_id'])['level'] != 'admin') {
     $res_account = mysqli_query($connect, $sql_account);
 
     if (isset($_POST['accept_account'])) {
+        $sql_insert_friend = 'INSERT INTO friendrelation (AreFriend, user_id_1, user_id_2) VALUES ("True", "' . $_POST['user_id'] . '", "' . $_POST['user_id'] . '")';
+        $res_insert_friend = mysqli_query($connect, $sql_insert_friend);
         $sql_edit_account = 'UPDATE account SET acc_status = "accept" WHERE user_id = "' . $_POST['user_id'] . '"';
         $res_edit_account = mysqli_query($connect, $sql_edit_account);
         if ($res_edit_account) {

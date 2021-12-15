@@ -1,15 +1,26 @@
 <?php
 include './system/connect.php';
-if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESSION["level"])) AND (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"]))) {
-    ?>
+if ((isset($_SESSION["user_id"]) or isset($_SESSION["username"]) or isset($_SESSION["level"])) and (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"]))) {
+?>
     <script>
         window.location = "?page=login"
     </script>
-    <?php
+<?php
+}
+
+if (!isset($_GET["page"])) {
+    $_GET["page"] = "home";
+}
+if (!$_GET) {
+    $_GET["page"] = "home";
+}
+if (!$_GET["page"]) {
+    $_GET["page"] = "home";
 }
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,19 +30,20 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
     <script src="./asset/js/jquery-3.6.0.min.js"></script>
     <script src="./asset/js/bootstrap.js"></script>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <a class="navbar-brand" href="?page=home">SocialSystem</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-    
+
         <div class="collapse navbar-collapse" id="navbarContent">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="?page=home">หน้าหลัก</a>
                 </li>
-                
+
                 <?php
                 if (isset($_SESSION["username"])) {
                 ?>
@@ -42,17 +54,17 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
                 }
                 ?>
             </ul>
-            
-            <style>
-            .user-avatar-md {
-                height: 32px;
-                width: 32px
-            }
 
-            .dropdown-menu-right {
-                right: 0;
-                left: auto;
-            }
+            <style>
+                .user-avatar-md {
+                    height: 32px;
+                    width: 32px
+                }
+
+                .dropdown-menu-right {
+                    right: 0;
+                    left: auto;
+                }
             </style>
             <?php
             if (isset($_SESSION["username"])) {
@@ -87,7 +99,7 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
             <?php
             if (isset($_SESSION["username"])) {
                 if (UserInfo($_SESSION['user_id'])['level'] == "admin") {
-                ?>
+            ?>
                     <div class="dropdown">
                         <a class="btn btn-success dropdown-toggle" href="#" id="navbarDropdownSystem" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             จัดการระบบ
@@ -98,7 +110,7 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
                             <a class="dropdown-item" href="?page=admin&admin_page=report_system">รายงานระบบ</a>
                         </div>
                     </div>
-                <?php
+            <?php
                 }
             }
             ?>
@@ -106,28 +118,18 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
     </nav>
     <?php
     if (isset($_GET['page'])) {
-        if ($_GET["page"] == "home" OR $_GET["page"] == "search") {
-        ?>
-        <div class="col-md-3 row p-1 m-0">
-            <input class="form-control col-9 pl-1" style="width: unset!important" type="search" id="search_name" name="search_name" placeholder="ค้นหาผู้ใช้" aria-label="Search">
-            <div class="btn btn-outline-success my-2 my-sm-0 col-3" onclick="window.location = '?page=search&search_name=' + $('#search_name').val()">ค้นหา</div>&emsp;
-        </div>
-        <?php
+        if ($_GET["page"] == "home" or $_GET["page"] == "search") {
+    ?>
+            <div class="col-md-3 row p-1 m-0">
+                <input class="form-control col-9 pl-1" style="width: unset!important" type="search" id="search_name" name="search_name" placeholder="ค้นหาผู้ใช้" aria-label="Search">
+                <div class="btn btn-outline-success my-2 my-sm-0 col-3" onclick="window.location = '?page=search&search_name=' + $('#search_name').val()">ค้นหา</div>&emsp;
+            </div>
+    <?php
         }
     }
     ?>
     <div class="container">
         <?php
-        if (!isset($_GET["page"])) {
-            $_GET["page"] = "home";
-        }
-        if (!$_GET) {
-            $_GET["page"] = "home";
-        }
-        if(!$_GET["page"]) {
-            $_GET["page"] = "home";
-        }
-        
         if ($_GET["page"] == "home") {
             include './page/home.php';
         } elseif ($_GET["page"] == "edit_info") {
@@ -153,53 +155,54 @@ if ((isset($_SESSION["user_id"]) OR isset($_SESSION["username"]) OR isset($_SESS
         } elseif ($_GET["page"] == "logout") {
             include './page/logout.php';
         } else {
-            ?>
+        ?>
             <div class="alert alert-primary" role="alert">
                 404! ไม่พบหน้าที่ท่านกำลังร้องขอ กำลังพากลับไปหน้าหลัก...
             </div>
             <script>
-            setTimeout(() => {
-                window.location = "?page=home";
-            }, 3000);
+                setTimeout(() => {
+                    window.location = "?page=home";
+                }, 3000);
             </script>
-            <?php
+        <?php
         }
         ?>
     </div>
 </body>
+
 </html>
 <?php
 if (isset($_POST['action'])) {
     if ($_POST['action'] == 'deletefriend') {
         $sql_delete_friend = 'DELETE FROM friendrelation WHERE (user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '") OR (user_id_2 = "' . $_POST['user_id'] . '" AND user_id_1 = "' . $_SESSION['user_id'] . '")';
         $res_delete_friend = mysqli_query($connect, $sql_delete_friend);
-        ?>
+?>
         <script>
-        setTimeout(() => {
-            window.location = window.location;
-        }, 1000);
+            setTimeout(() => {
+                window.location = window.location;
+            }, 1000);
         </script>
-        <?php
+    <?php
     } elseif ($_POST['action'] == 'acceptfriend') {
         $sql_accept_friend = 'UPDATE friendrelation SET AreFriend = "True" WHERE user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '"';
         $res_accept_friend = mysqli_query($connect, $sql_accept_friend);
-        ?>
+    ?>
         <script>
-        setTimeout(() => {
-            window.location = window.location;
-        }, 1000);
+            setTimeout(() => {
+                window.location = window.location;
+            }, 1000);
         </script>
-        <?php
+    <?php
     } elseif ($_POST['action'] == 'cancelpending') {
         $sql_cancel_pending_friend = 'DELETE FROM friendrelation WHERE user_id_1 = "' . $_SESSION['user_id'] . '" AND user_id_2 = "' . $_POST['user_id'] . '"';
         $res_cancel_pending_friend = mysqli_query($connect, $sql_cancel_pending_friend);
-        ?>
+    ?>
         <script>
-        setTimeout(() => {
-            window.location = window.location;
-        }, 1000);
+            setTimeout(() => {
+                window.location = window.location;
+            }, 1000);
         </script>
-        <?php
+    <?php
     } elseif ($_POST['action'] == 'addfriend') {
         $sql_check_friend = 'SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" AND user_id_2 = "' . $_POST['user_id'] . '") OR (user_id_1 = "' . $_POST['user_id'] . '" AND user_id_2 = "' . $_SESSION['user_id'] . '")';
         $res_check_friend = mysqli_query($connect, $sql_check_friend);
@@ -207,12 +210,12 @@ if (isset($_POST['action'])) {
             $sql_add_friend = 'INSERT INTO friendrelation (AreFriend, user_id_1, user_id_2) VALUES ("False", "' . $_SESSION['user_id'] . '", "' . $_POST['user_id'] . '")';
             $res_add_friend = mysqli_query($connect, $sql_add_friend);
         }
-        ?>
+    ?>
         <script>
-        setTimeout(() => {
-            window.location = window.location;
-        }, 1000);
+            setTimeout(() => {
+                window.location = window.location;
+            }, 1000);
         </script>
-        <?php
+<?php
     }
 }

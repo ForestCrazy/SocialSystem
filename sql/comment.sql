@@ -4,5 +4,7 @@ CREATE TABLE `comment` (
     `user_id` int NOT NULL,
     `post_id` int NOT NULL,
     `create_time` datetime DEFAULT CURRENT_TIMESTAMP,
-    PRIMARY KEY(`cm_id`)
+    PRIMARY KEY(`cm_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `account`(`user_id`),
+    FOREIGN KEY (`post_id`) REFERENCES `post`(`post_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;

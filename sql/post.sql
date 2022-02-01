@@ -4,5 +4,6 @@ CREATE TABLE `post` (
     `post_img` varchar(255),
     `user_id` int NOT NULL,
     `create_time` datetime DEFAULT current_TIMESTAMP,
-    PRIMARY KEY(`post_id`)
+    PRIMARY KEY(`post_id`),
+    FOREIGN KEY (`user_id`) REFERENCES `account`(`user_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;

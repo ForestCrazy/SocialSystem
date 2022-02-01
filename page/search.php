@@ -19,7 +19,7 @@ if (!isset($_GET["search_name"])) {
         <div class="card">
             <div class="card-body d-flex row">
                 <div class="col-2">
-                    <img src="<?= $fetch_user['img_profile'] ?>" style="max-height: 120px;" alt="" class="img-fluid">
+                    <img src="./asset/img_profile/<?= $fetch_search_user['img_profile'] ?>" style="max-height: 120px;" alt="" class="img-fluid">
                 </div>
                 <div class='col-6'>
                     <h5 class="mr-auto"><?= $fetch_search_user['FirstName'] . '&emsp;' . $fetch_search_user['LastName'] ?></h5>

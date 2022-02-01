@@ -9,18 +9,19 @@ if (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"])) {
     if (isset($_GET['user_id'])) {
         $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account WHERE user_id = "' . $_GET['user_id'] . '") AS account INNER JOIN post ON account.user_id = post.user_id ORDER BY post.post_id';
     } else {
-        $sql_friend_amount = 'SELECT * AS friend_amount FROM friendrelation WHERE user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '"';
-        $res_friend_amount = mysqli_query($connect, $sql_friend_amount);
-        if ($res_friend_amount) {
-            $count_friend_amount = mysqli_num_rows($res_friend_amount);
-        } else {
-            $count_friend_amount = 0;
-        }
-        if ($count_friend_amount == 0) {
-            $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account WHERE user_id = "' . $_SESSION['user_id'] . '") AS account INNER JOIN post ON account.user_id = post.user_id ORDER BY post.post_id';
-        } else {
-            $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account LEFT JOIN (SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AND AreFriend = "True") AS friendrelation ON account.user_id = friendrelation.user_id_1 OR account.user_id = friendrelation.user_id_2 WHERE AreFriend IS NOT NULL) AS user_list INNER JOIN post ON user_list.user_id = post.user_id GROUP BY post.post_id ORDER BY post.post_id';
-        }
+        // $sql_friend_amount = 'SELECT * AS friend_amount FROM friendrelation WHERE user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '"';
+        // $res_friend_amount = mysqli_query($connect, $sql_friend_amount);
+        // if ($res_friend_amount) {
+        //     $count_friend_amount = mysqli_num_rows($res_friend_amount);
+        // } else {
+        //     $count_friend_amount = 0;
+        // }
+        // if ($count_friend_amount == 0) {
+        //     $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account WHERE user_id = "' . $_SESSION['user_id'] . '") AS account INNER JOIN post ON account.user_id = post.user_id ORDER BY post.post_id';
+        // } else {
+        //     $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account LEFT JOIN (SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AND AreFriend = "True") AS friendrelation ON account.user_id = friendrelation.user_id_1 OR account.user_id = friendrelation.user_id_2 WHERE AreFriend IS NOT NULL) AS user_list INNER JOIN post ON user_list.user_id = post.user_id GROUP BY post.post_id ORDER BY post.post_id';
+        // }
+        $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account LEFT JOIN (SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AND AreFriend = "True") AS friendrelation ON account.user_id = friendrelation.user_id_1 OR account.user_id = friendrelation.user_id_2 WHERE friendrelation.AreFriend IS NOT NULL GROUP BY account.user_id) AS user_list INNER JOIN post ON user_list.user_id = post.user_id';
     }
     $res_feed_post_list = mysqli_query($connect, $sql_feed_post_list);
 
@@ -78,7 +79,7 @@ if (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"])) {
                             <div class="d-flex flex-row align-items-center feed-text px-2"><img class="user-avatar-md" src="./asset/img_profile/<?= $fetch_feed_post_list['img_profile'] ?>" width="45">
                                 <div class="d-flex flex-column flex-wrap ml-2"><span class="font-weight-bold"><?= $fetch_feed_post_list['FirstName'] . '&emsp;' . $fetch_feed_post_list['LastName'] ?></span><span class="text-black-50 time"><?= $fetch_feed_post_list['create_time'] ?></span></div>
                             </div>
-                            <div class="feed-icon px-2">
+                            <div class="px-2">
                                 <?php
                                 if ($fetch_feed_post_list['user_id'] == $_SESSION['user_id'] or UserInfo($_SESSION['user_id'])['level'] == 'admin') {
                                 ?>
@@ -104,7 +105,7 @@ if (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"])) {
                             $fetch_user_comment = UserInfo($fetch_feed_comment_list['user_id']);
                         ?>
                             <li class="media border m-1 rounded d-flex flex-row align-items-center feed-text px-2">
-                                <img class="user-avatar-md mr-1" src="./asset/img_profile/<?= $fetch_user_comment['img_profile'] ?>" alt="CommentProfile">
+                                <img class="user-avatar-md mr-1" src="./asset/img_profile/<?= $fetch_user_comment['img_profile'] ?>">
                                 <div class="media-body">
                                     <div class='d-flex justify-content-start'>
                                         <div class='w-100'>

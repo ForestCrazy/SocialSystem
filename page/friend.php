@@ -8,10 +8,8 @@ if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"])) {
 } else {
     // $sql_friend_list = 'SELECT * FROM friendrelation WHERE ((user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AND AreFriend = "True") AND (user_id_1 != "' . $_SESSION['user_id'] . '" OR user_id_2 != "' . $_SESSION['user_id'] . '")';
     // $res_friend_list = mysqli_query($connect, $sql_friend_list);
-    $sql_friend_list_1 = 'SELECT * FROM friendrelation INNER JOIN account ON friendrelation.user_id_2 = account.user_id WHERE user_id_1 = "' . $_SESSION['user_id'] . '" AND user_id_2 != "' . $_SESSION['user_id'] . '"';
-    $res_friend_list_1 = mysqli_query($connect, $sql_friend_list_1);
-    $sql_friend_list_2 = 'SELECT * FROM friendrelation INNER JOIN account ON friendrelation.user_id_1 = account.user_id WHERE user_id_2 = "' . $_SESSION['user_id'] . '" AND user_id_1 != "' . $_SESSION['user_id'] . '"';
-    $res_friend_list_2 = mysqli_query($connect, $sql_friend_list_2);
+    $sql_friend_list = 'SELECT * FROM (SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AND AreFriend = "True") AS friendrelation INNER JOIN account ON friendrelation.user_id_1 = account.user_id OR friendrelation.user_id_2 = account.user_id WHERE (friendrelation.user_id_1 != friendrelation.user_id_2) AND account.user_id != "' . $_SESSION['user_id'] . '" GROUP BY account.user_id';
+    $res_friend_list = mysqli_query($connect, $sql_friend_list);
     
     $sql_friend_pending = 'SELECT * FROM friendrelation INNER JOIN account ON friendrelation.user_id_2 = account.user_id WHERE user_id_1 = "' . $_SESSION['user_id'] . '" AND AreFriend = "False"';
     $res_friend_pending = mysqli_query($connect, $sql_friend_pending);
@@ -22,9 +20,9 @@ if (!isset($_SESSION["user_id"]) OR !isset($_SESSION["username"])) {
     $sql_not_friend = 'SELECT * FROM (SELECT * FROM account WHERE user_id != "' . $_SESSION['user_id'] . '") AS account LEFT JOIN (SELECT * FROM friendrelation WHERE user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AS friendrelation ON account.user_id = friendrelation.user_id_1 OR account.user_id = friendrelation.user_id_2 WHERE AreFriend IS NULL';
     $res_not_friend = mysqli_query($connect, $sql_not_friend);
 ?>
-    <h4>เพื่อนทั้งหมด <?= mysqli_num_rows($res_friend_list_1) + mysqli_num_rows($res_friend_list_2) ?></h4>
+    <h4>เพื่อนทั้งหมด <?= mysqli_num_rows($res_friend_list) ?></h4>
     <?php
-    if (mysqli_num_rows($res_friend_list_1) != 0 && mysqli_num_rows($res_friend_list_2) != 0) {
+    if (mysqli_num_rows($res_friend_list) != 0) {
         while ($fetch_friend_list = mysqli_fetch_assoc($res_friend_list)) {
             if ($fetch_friend_list['user_id_1'] == $_SESSION['user_id']) {
                 $fetch_user = UserInfo($fetch_friend_list['user_id_2']);

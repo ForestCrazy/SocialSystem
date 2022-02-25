@@ -1,10 +1,10 @@
 <?php
 if (UserInfo($_SESSION['user_id'])['level'] != 'admin') {
-    ?>
+?>
     <script>
-    window.location = '?page=home';
+        window.location = '?page=home';
     </script>
-    <?php
+<?php
 } else {
     $sql_account = 'SELECT * FROM account WHERE acc_status != "pending"';
     $res_account = mysqli_query($connect, $sql_account);
@@ -21,7 +21,7 @@ if (UserInfo($_SESSION['user_id'])['level'] != 'admin') {
             $res_delete = mysqli_query($connect, $sql_delete);
         }
     }
-    ?>
+?>
     <h4>จัดการบัญชี</h4>
     <table class="table table-light">
         <thead class="thead-light">
@@ -49,11 +49,13 @@ if (UserInfo($_SESSION['user_id'])['level'] != 'admin') {
                             <input type='hidden' name='user_id' value='<?= $fetch_account['user_id'] ?>'>
                             <div class='btn btn-primary' onclick='window.location = "?page=edit_info&user_id=<?= $fetch_account['user_id'] ?>"'>แก้ไข</div>
                             <?php
-                            if ($fetch_account['acc_status'] == 'accept') { ?>
-                                <button type='submit' class='btn btn-primary' name='action_account' value='cancel'>ยกเลิกบัญชี</button>
-                            <?php } else {?>
-                                <button type='submit' class='btn btn-primary' name='action_account' value='accept'>ปลดแบนบัญชี</button>
-                            <?php } ?>
+                            if ($fetch_account['level'] != 'admin') {
+                                if ($fetch_account['acc_status'] == 'accept') { ?>
+                                    <button type='submit' class='btn btn-primary' name='action_account' value='cancel'>ระงับบัญชี</button>
+                                <?php } else { ?>
+                                    <button type='submit' class='btn btn-primary' name='action_account' value='accept'>ปลดแบนบัญชี</button>
+                            <?php }
+                            } ?>
                         </form>
                         <form action='' method='POST'>
                             <input type='hidden' name='user_id' value='<?= $fetch_account['user_id'] ?>'>
@@ -67,5 +69,5 @@ if (UserInfo($_SESSION['user_id'])['level'] != 'admin') {
             ?>
         </tbody>
     </table>
-    <?php
+<?php
 }

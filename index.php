@@ -107,6 +107,7 @@ if (!$_GET["page"]) {
                         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdownSystem">
                             <a class="dropdown-item" href="?page=admin&admin_page=accept_account">อนุมัติบัญชี</a>
                             <a class="dropdown-item" href="?page=admin&admin_page=manage_account">จัดการบัญชี</a>
+                            <a class="dropdown-item" href="?page=home&active_all_user">โพสต์ทั้งหมดในระบบ</a>
                             <a class="dropdown-item" href="?page=admin&admin_page=report_system">รายงานระบบ</a>
                         </div>
                     </div>

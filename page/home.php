@@ -23,7 +23,7 @@ if (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"])) {
         // } else {
         //     $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account LEFT JOIN (SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AND AreFriend = "True") AS friendrelation ON account.user_id = friendrelation.user_id_1 OR account.user_id = friendrelation.user_id_2 WHERE AreFriend IS NOT NULL) AS user_list INNER JOIN post ON user_list.user_id = post.user_id GROUP BY post.post_id ORDER BY post.post_id';
         // }
-        $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account LEFT JOIN (SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AND AreFriend = "True") AS friendrelation ON account.user_id = friendrelation.user_id_1 OR account.user_id = friendrelation.user_id_2 WHERE friendrelation.AreFriend IS NOT NULL GROUP BY account.user_id) AS user_list INNER JOIN post ON user_list.user_id = post.user_id';
+        $sql_feed_post_list = 'SELECT * FROM (SELECT * FROM account LEFT JOIN (SELECT * FROM friendrelation WHERE (user_id_1 = "' . $_SESSION['user_id'] . '" OR user_id_2 = "' . $_SESSION['user_id'] . '") AND AreFriend = "True") AS friendrelation ON account.user_id = friendrelation.user_id_1 OR account.user_id = friendrelation.user_id_2 WHERE friendrelation.AreFriend IS NOT NULL GROUP BY account.user_id) AS user_list INNER JOIN post ON user_list.user_id = post.user_id ORDER BY post.post_id DESC';
     }
     $res_feed_post_list = mysqli_query($connect, $sql_feed_post_list);
 

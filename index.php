@@ -75,6 +75,7 @@ if (!$_GET["page"]) {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" href="?page=edit_info">แก้ไขข้อมูล</a>
+                        <a class="dropdown-item" href="?page=change_password">เปลี่ยนรหัสผ่าน</a>
                         <a class="dropdown-item" href="?page=friend">เพื่อน</a>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" href="?page=logout">ออกจากระบบ</a>
@@ -135,6 +136,8 @@ if (!$_GET["page"]) {
             include './page/home.php';
         } elseif ($_GET["page"] == "edit_info") {
             include './page/edit_info.php';
+        } elseif ($_GET["page"] == "change_password") {
+            include './page/change_password.php';
         } elseif ($_GET["page"] == "create_post") {
             include './page/create_post.php';
         } elseif ($_GET["page"] == "friend") {

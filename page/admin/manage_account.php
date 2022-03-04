@@ -29,8 +29,6 @@ if (UserInfo($_SESSION['user_id'])['level'] != 'admin') {
                 <th>#</th>
                 <th>Username</th>
                 <th>Email</th>
-                <th>FirstName</th>
-                <th>LastName</th>
                 <th>Manage</th>
             </tr>
         </thead>
@@ -42,8 +40,6 @@ if (UserInfo($_SESSION['user_id'])['level'] != 'admin') {
                     <td><?= $fetch_account['user_id'] ?></td>
                     <td><?= $fetch_account['username'] ?></td>
                     <td><?= $fetch_account['email'] ?></td>
-                    <td><?= $fetch_account['FirstName'] ?></td>
-                    <td><?= $fetch_account['LastName'] ?></td>
                     <td class='d-flex justify-content-center'>
                         <form action='' method='POST'>
                             <input type='hidden' name='user_id' value='<?= $fetch_account['user_id'] ?>'>

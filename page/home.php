@@ -111,7 +111,7 @@ if (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"])) {
                                 <div class="media-body">
                                     <div class='d-flex justify-content-start'>
                                         <div class='w-100'>
-                                            <p class="mt-0 mb-1"><?= $fetch_user_comment['FirstName'] . '&emsp;' . $fetch_user_comment['LastName'] ?></p>
+                                            <p class="mt-2 mb-1"><?= $fetch_user_comment['FirstName'] . '&emsp;' . $fetch_user_comment['LastName'] ?></p>
                                             <?= $fetch_feed_comment_list['cm_message'] ?>
                                         </div>
                                         <?php

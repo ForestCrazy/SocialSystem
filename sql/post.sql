@@ -1,0 +1,8 @@
+CREATE TABLE `social_network`.`post` (
+    `post_id` INT NOT NULL AUTO_INCREMENT,
+    `post_text` VARCHAR(255) NULL DEFAULT NULL,
+    `post_img` VARCHAR(255) NULL DEFAULT NULL,
+    `user_id` INT NULL DEFAULT NULL,
+    `time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (`post_id`)
+) ENGINE = InnoDB;

@@ -123,7 +123,7 @@ if (!$_GET["page"]) {
     ?>
             <div class="col-md-3 row p-1 m-0">
                 <input class="form-control col-9 pl-1" style="width: unset!important" type="search" id="search_name" name="search_name" placeholder="ค้นหาผู้ใช้" aria-label="Search">
-                <div class="btn btn-outline-success my-2 my-sm-0 col-3" onclick="window.location = '?page=search&search_name=' + $('#search_name').val()">ค้นหา</div>&emsp;
+                <div class="btn btn-success my-2 my-sm-0 col-3" onclick="window.location = '?page=search&search_name=' + $('#search_name').val()">ค้นหา</div>&emsp;
             </div>
     <?php
         }
@@ -171,7 +171,7 @@ if (!$_GET["page"]) {
     </div>
 </body>
 <footer class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top">
-    <span class="text-muted">ระบบเครือข่ายสังคมออนไลน์</span>
+    <span class="text-white">ระบบเครือข่ายสังคมออนไลน์</span>
 </footer>
 
 </html>

@@ -170,6 +170,9 @@ if (!$_GET["page"]) {
         ?>
     </div>
 </body>
+<footer class="d-flex flex-wrap justify-content-center align-items-center py-3 my-4 border-top">
+    <span class="text-muted">ระบบเครือข่ายสังคมออนไลน์</span>
+</footer>
 
 </html>
 <?php

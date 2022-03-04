@@ -75,7 +75,7 @@ if (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"])) {
         while ($fetch_feed_post_list = mysqli_fetch_assoc($res_feed_post_list)) {
         ?>
             <div class="p-2 col-md-8">
-                <div class="bg-white border mt-2">
+                <div class="bg-white border mt-2 rounded">
                     <div>
                         <div class="d-flex flex-row justify-content-between align-items-center p-2 border-bottom">
                             <div class="d-flex flex-row align-items-center feed-text px-2"><img class="user-avatar-md" src="./asset/img_profile/<?= $fetch_feed_post_list['img_profile'] ?>" width="45">
@@ -85,9 +85,9 @@ if (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"])) {
                                 <?php
                                 if ($fetch_feed_post_list['user_id'] == $_SESSION['user_id'] or UserInfo($_SESSION['user_id'])['level'] == 'admin') {
                                 ?>
+                                    <div class='btn btn-secondary w-100' onclick='window.location="?page=manage_post&post_id=<?= $fetch_feed_post_list['post_id'] ?>"'>แก้ไข</div>
                                     <form action='' method='POST'>
                                         <input type='hidden' name='post_id' value='<?= $fetch_feed_post_list['post_id'] ?>'>
-                                        <div class='btn btn-secondary w-100' onclick='window.location="?page=manage_post&post_id=<?= $fetch_feed_post_list['post_id'] ?>"'>แก้ไข</div>
                                         <button class='btn btn-danger w-100' name='action' value='deletepost'>ลบ</button>
                                     </form>
                                 <?php
@@ -117,10 +117,12 @@ if (!isset($_SESSION["user_id"]) or !isset($_SESSION["username"])) {
                                         <?php
                                         if ($fetch_feed_comment_list['user_id'] == $_SESSION['user_id'] or UserInfo($_SESSION['user_id'])['level'] == 'admin') {
                                         ?>
-                                            <div class='col-2 d-flex justify-content-end'>
+                                            <div class="flex-grow-1 ms-3">
+                                                <div>
+                                                    <div class='btn btn-secondary w-100' onclick='window.location="?page=manage_comment&cm_id=<?= $fetch_feed_comment_list['cm_id'] ?>"'>แก้ไข</div>
+                                                </div>
                                                 <form action='' method='POST'>
                                                     <input type='hidden' name='cm_id' value='<?= $fetch_feed_comment_list['cm_id'] ?>'>
-                                                    <div class='btn btn-secondary w-100' onclick='window.location="?page=manage_comment&cm_id=<?= $fetch_feed_comment_list['cm_id'] ?>"'>แก้ไข</div>
                                                     <button class='btn btn-danger w-100' name='action' value='deletecm'>ลบ</button>
                                                 </form>
                                             </div>

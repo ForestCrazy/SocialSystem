@@ -45,7 +45,20 @@ if (!isset($_SESSION['id'])) {
         ?>
             <div class="row">
                 <div style="margin-left: auto; margin-right: auto; border: 1px solid black; float: none;" class="col-md-4">
-                    <h5><?php echo $row['firstname'] . "&nbsp;" . $row['lastname']; ?></h5>
+                    <div class="row" style="border-bottom: 1px solid black;">
+                        <div class="col-sm-3">
+                            <img src="<?php echo $row['profile']; ?>" style="width: 100%;" />
+                        </div>
+                        <div class="col-sm-6">
+                            <h5><?php echo $row['firstname'] . "&nbsp;" . $row['lastname']; ?></h5>
+                        </div>
+                        <div class="col-sm-3">
+                            <form action="" method="POST">
+                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>" />
+                                <button type="submit" class="btn btn-default" name="delete">Delete</button>
+                            </form>
+                        </div>
+                    </div>
                     <p><?php echo $row['text']; ?></p>
                     <img src="<?php echo $row['image']; ?>" style="width: 100%;" />
                 </div>
@@ -67,6 +80,13 @@ if (isset($_POST['submit'])) {
     }
     if (mysqli_query($conn, "INSERT INTO post (text, image, u_id) VALUES ('" . $_POST['text'] . "', '" . $file . "', '" . $_SESSION['id'] . "')")) {
         echo "<script>alert('โพสต์สำเร็จ');window.location = 'index.php';</script>";
+    } else {
+        echo "<script>alert('เกิดข้อผิดพลาด');window.location = 'index.php';</script>";
+    }
+}
+if (isset($_POST['delete'])) {
+    if (mysqli_query($conn, "DELETE FROM post WHERE id = '" . $_POST['id'] . "'")) {
+        echo "<script>alert('ลบโพสต์สำเร็จ');window.location = 'index.php';</script>";
     } else {
         echo "<script>alert('เกิดข้อผิดพลาด');window.location = 'index.php';</script>";
     }

@@ -39,6 +39,7 @@ if (!isset($_SESSION['user_id'])) {
                                 <div class="btn btn-primary">แก้ไข</div>
                             </a>
                             <form action="" method="POST">
+                                <input type="hidden" name="post_img" value="<?php echo $row['post_img']; ?>">
                                 <button type="submit" class="btn btn-danger h-100" name="delete_post" value="<?php echo $row['post_id']; ?>">ลบ</button>
                             </form>
                         <?php
@@ -110,6 +111,9 @@ if (!isset($_SESSION['user_id'])) {
         }
     }
     if (isset($_POST['delete_post'])) {
+        if ($_POST['post_img'] != "") {
+            unlink($_POST['post_img']);
+        }
         $query = "DELETE FROM post WHERE post_id = '" . $_POST['delete_post'] . "'";
         if (mysqli_query($connect, $query)) {
             echo "<script>alert('ลบโพสต์สำเร็จ');</script>";

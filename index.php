@@ -40,7 +40,7 @@ if (!isset($_SESSION['id'])) {
         </div>
         <br />
         <?php
-        $result = mysqli_query($conn, "SELECT * FROM post INNER JOIN user ON post.u_id = user.id WHERE user.id = '" . $_SESSION['id'] . "'");
+        $result = mysqli_query($conn, "SELECT *, post.id AS post_id FROM post INNER JOIN user ON post.u_id = user.id WHERE user.id = '" . $_SESSION['id'] . "'");
         while ($row = mysqli_fetch_assoc($result)) {
         ?>
             <div class="row">
@@ -54,7 +54,8 @@ if (!isset($_SESSION['id'])) {
                         </div>
                         <div class="col-sm-3">
                             <form action="" method="POST">
-                                <input type="hidden" name="id" value="<?php echo $row['id']; ?>" />
+                                <input type="hidden" name="id" value="<?php echo $row['post_id']; ?>" />
+                                <input type="hidden" name="image" value="<?php echo $row['image']; ?>" />
                                 <button type="submit" class="btn btn-default" name="delete">Delete</button>
                             </form>
                         </div>
@@ -85,6 +86,9 @@ if (isset($_POST['submit'])) {
     }
 }
 if (isset($_POST['delete'])) {
+    if ($_POST['image'] != "") {
+        unlink($_POST['image']);
+    }
     if (mysqli_query($conn, "DELETE FROM post WHERE id = '" . $_POST['id'] . "'")) {
         echo "<script>alert('ลบโพสต์สำเร็จ');window.location = 'index.php';</script>";
     } else {

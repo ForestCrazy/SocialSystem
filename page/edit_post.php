@@ -20,7 +20,9 @@ if (!isset($_SESSION['user_id'])) {
 if (isset($_POST['submit_edit'])) {
     $filename = $_POST['post_img'];
     if ($_FILES['uploadFile']['name'] != NULL) {
-        unlink($filename);
+        if ($filename != "") {
+            unlink($filename);
+        }
         $filename = "images/post/" . time() . $_FILES['uploadFile']['name'];
         move_uploaded_file($_FILES['uploadFile']['tmp_name'], $filename);
     }
